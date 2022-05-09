@@ -1,5 +1,9 @@
-package com.example.jwtandwebsocket.entity;
+package com.example.jwtandwebsocket.entity.role;
 
+import com.example.jwtandwebsocket.dto.role.RoleDto;
+import com.example.jwtandwebsocket.entity.BaseEntity;
+import com.example.jwtandwebsocket.entity.permission.PermissionEntity;
+import com.example.jwtandwebsocket.entity.user.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +17,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleEntity {
+public class RoleEntity implements BaseEntity<RoleDto> {
 
     @Id
     @Column(name = "id", columnDefinition = "uuid")
@@ -45,4 +49,19 @@ public class RoleEntity {
             uniqueConstraints = @UniqueConstraint(name = "unique_role_and_permission", columnNames = {"roleId", "permissionId"})
     )
     private List<PermissionEntity> permissionEntities;
+
+    @Override
+    public UUID getUuid() {
+        return this.id;
+    }
+
+    @Override
+    public void setUuid(UUID id) {
+        this.setId(id);
+    }
+
+    @Override
+    public RoleDto toData() {
+        return null;
+    }
 }

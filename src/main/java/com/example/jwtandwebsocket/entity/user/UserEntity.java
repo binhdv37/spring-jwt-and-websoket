@@ -1,5 +1,8 @@
-package com.example.jwtandwebsocket.entity;
+package com.example.jwtandwebsocket.entity.user;
 
+import com.example.jwtandwebsocket.dto.user.UserDto;
+import com.example.jwtandwebsocket.entity.BaseEntity;
+import com.example.jwtandwebsocket.entity.role.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +15,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class UserEntity implements BaseEntity<UserDto> {
 
     @Id
     @Column(name = "id", columnDefinition = "uuid")
@@ -51,4 +54,19 @@ public class UserEntity {
     @ManyToOne
     @JoinColumn(name = "roleId", referencedColumnName = "id")
     private RoleEntity roleEntity;
+
+    @Override
+    public UUID getUuid() {
+        return this.id;
+    }
+
+    @Override
+    public void setUuid(UUID id) {
+        this.setId(id);
+    }
+
+    @Override
+    public UserDto toData() {
+        return null;
+    }
 }
