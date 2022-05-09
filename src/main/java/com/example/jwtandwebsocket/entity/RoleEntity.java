@@ -36,4 +36,13 @@ public class RoleEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "roleEntity", cascade = CascadeType.ALL)
     private List<UserEntity> userEntities;
+
+    @ManyToMany
+    @JoinTable(
+            name = "role_and_permision",
+            joinColumns = @JoinColumn(name = "roleId"),
+            inverseJoinColumns = @JoinColumn(name = "permissionId"),
+            uniqueConstraints = @UniqueConstraint(name = "unique_role_and_permission", columnNames = {"roleId", "permissionId"})
+    )
+    private List<PermissionEntity> permissionEntities;
 }
