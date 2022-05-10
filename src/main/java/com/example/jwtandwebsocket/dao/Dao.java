@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public interface Dao<T> {
 
-    T get(UUID id);
+    T findById(UUID id);
 
     T save(T t);
 

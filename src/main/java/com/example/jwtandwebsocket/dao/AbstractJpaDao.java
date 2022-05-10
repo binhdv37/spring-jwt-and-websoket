@@ -15,7 +15,7 @@ public abstract class AbstractJpaDao<E extends BaseEntity<T>, T> implements Dao<
     protected abstract CrudRepository<E, UUID> getCrudRepository();
 
     @Override
-    public T get(UUID id) {
+    public T findById(UUID id) {
         log.debug("Get entity by id {}", id);
         Optional<E> entity = getCrudRepository().findById(id);
         return DaoUtil.getData(entity);

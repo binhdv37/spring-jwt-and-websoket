@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Permission")
+@Table(name = "permission")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

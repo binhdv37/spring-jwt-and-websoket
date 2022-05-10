@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "AppUser")
+@Table(name = "app_user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

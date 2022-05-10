@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "Role")
+@Table(name = "role")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
