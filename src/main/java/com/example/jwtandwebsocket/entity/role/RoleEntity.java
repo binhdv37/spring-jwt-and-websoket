@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Role")
@@ -57,11 +58,28 @@ public class RoleEntity implements BaseEntity<RoleDto> {
 
     @Override
     public void setUuid(UUID id) {
-        this.setId(id);
+        this.id = id;
     }
 
     @Override
     public RoleDto toData() {
-        return null;
+        RoleDto roleDto = new RoleDto();
+        roleDto.setId(id);
+        roleDto.setName(name);
+        roleDto.setUserDtos(userEntities == null
+                ? null
+                : userEntities.stream()
+                .map(UserEntity::toData)
+                .collect(Collectors.toList()));
+        roleDto.setPermissionDtos(permissionEntities == null
+                ? null
+                : permissionEntities.stream()
+                .map(PermissionEntity::toData)
+                .collect(Collectors.toList()));
+        roleDto.setCreatedTime(createdTime);
+        roleDto.setCreatedBy(createdBy);
+        roleDto.setUpdatedTime(updatedTime);
+        roleDto.setUpdatedBy(updatedBy);
+        return roleDto;
     }
 }

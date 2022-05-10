@@ -62,11 +62,24 @@ public class UserEntity implements BaseEntity<UserDto> {
 
     @Override
     public void setUuid(UUID id) {
-        this.setId(id);
+        this.id = id;
     }
 
     @Override
     public UserDto toData() {
-        return null;
+        UserDto userDto = new UserDto();
+        userDto.setId(id);
+        userDto.setUsername(username);
+        userDto.setPassword(password);
+        userDto.setEmail(email);
+        userDto.setFullName(fullName);
+        userDto.setPhoneNumber(phoneNumber);
+        userDto.setEnable(enable);
+        userDto.setRoleDto(roleEntity == null ? null : roleEntity.toData());
+        userDto.setCreatedTime(createdTime);
+        userDto.setCreatedBy(createdBy);
+        userDto.setUpdatedTime(updatedTime);
+        userDto.setUpdatedBy(updatedBy);
+        return userDto;
     }
 }

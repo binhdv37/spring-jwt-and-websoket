@@ -39,11 +39,15 @@ public class PermissionEntity implements BaseEntity<PermissionDto> {
 
     @Override
     public void setUuid(UUID id) {
-        this.setId(id);
+        this.id = id;
     }
 
     @Override
     public PermissionDto toData() {
-        return null;
+        PermissionDto permissionDto = new PermissionDto();
+        permissionDto.setId(id);
+        permissionDto.setKey(key);
+        permissionDto.setName(name);
+        return permissionDto;
     }
 }
