@@ -44,7 +44,7 @@ public class RoleEntity implements BaseEntity<RoleDto> {
 
     @ManyToMany
     @JoinTable(
-            name = "role_and_permision",
+            name = "role_and_permission",
             joinColumns = @JoinColumn(name = "roleId"),
             inverseJoinColumns = @JoinColumn(name = "permissionId"),
             uniqueConstraints = @UniqueConstraint(name = "unique_role_and_permission", columnNames = {"roleId", "permissionId"})
