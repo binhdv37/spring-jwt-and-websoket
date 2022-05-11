@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public interface UserService {
 
-    UserDto findUserById(UUID id);
+    UserDto findById(UUID id);
 
 }
