@@ -1,10 +1,12 @@
 package com.example.jwtandwebsocket.config;
 
 import com.example.jwtandwebsocket.service.security.filter.RestLoginProcessingFilter;
+import com.example.jwtandwebsocket.service.security.provider.RestAuthenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,6 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -35,11 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    @Lazy private RestAuthenProvider restAuthenProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        auth.authenticationProvider(restAuthenProvider);
     }
 
     @Override
@@ -65,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected RestLoginProcessingFilter buildRestLoginProcessingFilter() throws Exception {
         RestLoginProcessingFilter filter = new RestLoginProcessingFilter(REST_LOGIN_ENDPOINT, successHandler, failureHandler, objectMapper);
-        filter.setAuthenticationManager(this.authenticationManager);
+        filter.setAuthenticationManager(this.authenticationManagerBean());
         return filter;
     }
 
@@ -73,5 +77,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

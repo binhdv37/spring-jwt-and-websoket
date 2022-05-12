@@ -9,4 +9,9 @@ import java.util.Collection;
 @Data
 public class SecurityUser extends UserDto {
     private Collection<GrantedAuthority> authorities;
+
+    public SecurityUser(UserDto userDto, Collection<GrantedAuthority> authorities) {
+        super(userDto);
+        this.authorities = authorities;
+    }
 }

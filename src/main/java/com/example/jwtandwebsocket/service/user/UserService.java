@@ -8,4 +8,6 @@ public interface UserService {
 
     UserDto findById(UUID id);
 
+    UserDto findByUsername(String username);
+
 }

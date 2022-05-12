@@ -40,5 +40,4 @@ values('9ac86bc3-9c73-425e-8f12-e1135fa31e6f', '8f8745b9-50db-4f13-8290-611e6948
 
 -- super admin user
 insert into app_user(id, created_by, created_time, email, enable, full_name, password, phone_number, updated_by, updated_time, username, role_id)
-values('07157a06-d2bb-4912-bfa3-8ab1365b38bd', '07157a06-d2bb-4912-bfa3-8ab1365b38bd', 1652199980979, 'sysadmin@gmail.com', true, 'syadmin', '$2a$10$Hse9SASSJ5GeqQKYzXJLVefbCIq76IC42fqgGigqh1x34TRDQ4SaC
-', null, null, null, 'sysadmin', '9ac86bc3-9c73-425e-8f12-e1135fa31e6f')
+values('07157a06-d2bb-4912-bfa3-8ab1365b38bd', '07157a06-d2bb-4912-bfa3-8ab1365b38bd', 1652199980979, 'sysadmin@gmail.com', true, 'sysadmin', '$2a$10$Hse9SASSJ5GeqQKYzXJLVefbCIq76IC42fqgGigqh1x34TRDQ4SaC', null, null, null, 'sysadmin', '9ac86bc3-9c73-425e-8f12-e1135fa31e6f')

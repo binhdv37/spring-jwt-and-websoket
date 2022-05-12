@@ -39,10 +39,7 @@ public class RoleEntity implements BaseEntity<RoleDto> {
     @Column(name = "updatedBy")
     private UUID updatedBy;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "roleEntity", cascade = CascadeType.ALL)
-    private List<UserEntity> userEntities;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "role_and_permission",
             joinColumns = @JoinColumn(name = "roleId"),
@@ -66,11 +63,6 @@ public class RoleEntity implements BaseEntity<RoleDto> {
         RoleDto roleDto = new RoleDto();
         roleDto.setId(id);
         roleDto.setName(name);
-        roleDto.setUserDtos(userEntities == null
-                ? null
-                : userEntities.stream()
-                .map(UserEntity::toData)
-                .collect(Collectors.toList()));
         roleDto.setPermissionDtos(permissionEntities == null
                 ? null
                 : permissionEntities.stream()

@@ -25,4 +25,13 @@ public class UserDaoImpl extends AbstractJpaDao<UserEntity, UserDto> implements 
     protected CrudRepository<UserEntity, UUID> getCrudRepository() {
         return userRepository;
     }
+
+    @Override
+    public UserDto findByUsername(String username) {
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if (userEntity == null) {
+            return null;
+        }
+        return userEntity.toData();
+    }
 }

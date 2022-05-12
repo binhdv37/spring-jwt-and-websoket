@@ -23,4 +23,19 @@ public class UserDto {
     private Long updatedTime;
     private UUID updatedBy;
     private RoleDto roleDto;
+
+    public UserDto(UserDto userDto) {
+        this.id = userDto.getId();
+        this.username = userDto.getUsername();
+        this.password = userDto.getPassword();
+        this.email = userDto.getEmail();
+        this.fullName = userDto.getFullName();
+        this.phoneNumber = userDto.getPhoneNumber();
+        this.enable = userDto.isEnable();
+        this.createdTime = userDto.getCreatedTime();
+        this.createdBy = userDto.getCreatedBy();
+        this.updatedTime = userDto.getUpdatedTime();
+        this.updatedBy = userDto.getUpdatedBy();
+        this.roleDto = userDto.getRoleDto();
+    }
 }
