@@ -1,7 +1,11 @@
 package com.example.jwtandwebsocket.config;
 
+import com.example.jwtandwebsocket.service.security.filter.JwtTokenAuthenProcessingFilter;
 import com.example.jwtandwebsocket.service.security.filter.RestLoginProcessingFilter;
+import com.example.jwtandwebsocket.service.security.provider.JwtTokenAuthenProvider;
 import com.example.jwtandwebsocket.service.security.provider.RestAuthenProvider;
+import com.example.jwtandwebsocket.service.security.requestMatcher.SkipPathRequestMatcher;
+import com.example.jwtandwebsocket.utils.token.TokenExtractor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +23,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -41,9 +49,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Lazy private RestAuthenProvider restAuthenProvider;
 
+    @Autowired
+    @Lazy private JwtTokenAuthenProvider jwtTokenAuthenProvider;
+
+    @Autowired
+    private TokenExtractor tokenExtractor;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(restAuthenProvider);
+        auth.authenticationProvider(jwtTokenAuthenProvider);
     }
 
     @Override
@@ -63,11 +78,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(TOKEN_BASED_AUTH_ENTRY).authenticated()
                 .and()
-                .addFilterBefore(buildRestLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(buildRestLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(buildJwtTokenAuthenProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     protected RestLoginProcessingFilter buildRestLoginProcessingFilter() throws Exception {
         RestLoginProcessingFilter filter = new RestLoginProcessingFilter(REST_LOGIN_ENDPOINT, successHandler, failureHandler, objectMapper);
+        filter.setAuthenticationManager(this.authenticationManagerBean());
+        return filter;
+    }
+
+    protected JwtTokenAuthenProcessingFilter buildJwtTokenAuthenProcessingFilter() throws Exception {
+        List<String> pathsToSkip = new ArrayList<>();
+        pathsToSkip.addAll(Arrays.asList(REST_LOGIN_ENDPOINT, NONE_TOKEN_BASED_AUTH_ENTRY));
+        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY);
+        JwtTokenAuthenProcessingFilter filter = new JwtTokenAuthenProcessingFilter(failureHandler, tokenExtractor, matcher);
         filter.setAuthenticationManager(this.authenticationManagerBean());
         return filter;
     }

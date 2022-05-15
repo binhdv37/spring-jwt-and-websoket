@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse {
+public class BaseResponse {
     private int respCode; // resp code defined in RespCode enum
     private String respMessage; // resp message
     private int statusCode; // http status code: 200, 400, ...

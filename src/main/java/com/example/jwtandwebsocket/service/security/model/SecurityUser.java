@@ -14,4 +14,7 @@ public class SecurityUser extends UserDto {
         super(userDto);
         this.authorities = authorities;
     }
+
+    public SecurityUser() {
+    }
 }
