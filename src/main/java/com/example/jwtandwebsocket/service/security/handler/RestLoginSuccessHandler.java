@@ -42,7 +42,7 @@ public class RestLoginSuccessHandler implements AuthenticationSuccessHandler {
         Map<String, String> resp = new HashMap<>();
         resp.put("token", token);
         resp.put("refreshToken", refreshToken);
-        objectMapper.writeValue(response.getWriter(), resp);
+        objectMapper.writeValue(response.getOutputStream(), resp);
 
         clearAuthenticationAttributes(request);
     }
