@@ -5,9 +5,11 @@ import com.example.jwtandwebsocket.service.security.filter.RestLoginProcessingFi
 import com.example.jwtandwebsocket.service.security.provider.JwtTokenAuthenProvider;
 import com.example.jwtandwebsocket.service.security.provider.RestAuthenProvider;
 import com.example.jwtandwebsocket.service.security.requestMatcher.SkipPathRequestMatcher;
+import com.example.jwtandwebsocket.utils.token.JwtTokenFactory;
 import com.example.jwtandwebsocket.utils.token.TokenExtractor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -38,9 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String TOKEN_BASED_AUTH_ENTRY = "/api/**";
 
     @Autowired
-    private AuthenticationSuccessHandler successHandler;
-
-    @Autowired
+    @Qualifier(value = "customAuthenFailureHandler")
     private AuthenticationFailureHandler failureHandler;
 
     @Autowired
@@ -54,6 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private TokenExtractor tokenExtractor;
+
+    @Autowired
+    private JwtTokenFactory tokenFactory;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -83,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected RestLoginProcessingFilter buildRestLoginProcessingFilter() throws Exception {
-        RestLoginProcessingFilter filter = new RestLoginProcessingFilter(REST_LOGIN_ENDPOINT, successHandler, failureHandler, objectMapper);
+        RestLoginProcessingFilter filter = new RestLoginProcessingFilter(REST_LOGIN_ENDPOINT, tokenFactory, failureHandler, objectMapper);
         filter.setAuthenticationManager(this.authenticationManagerBean());
         return filter;
     }

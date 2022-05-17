@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
-public class RestLoginFailureHandler implements AuthenticationFailureHandler {
+@Component("customAuthenFailureHandler")
+public class CustomAuthenFailureHandler implements AuthenticationFailureHandler {
 
     private final MyExceptionHandler handler;
 
     @Autowired
-    public RestLoginFailureHandler(MyExceptionHandler handler) {
+    public CustomAuthenFailureHandler(MyExceptionHandler handler) {
         this.handler = handler;
     }
 
