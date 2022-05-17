@@ -36,13 +36,23 @@ public class MyExceptionHandler {
             BaseResponse apiResponse = new BaseResponse();
             if (ex instanceof MyAppException) {
                 MyAppException myAppException = (MyAppException) ex;
-                apiResponse.setRespCode(myAppException.getRespCode().value());
-                apiResponse.setStatusCode(respCodeToStatus(myAppException.getRespCode()).value());
-                apiResponse.setRespMessage(ex.getMessage());
+                int respCode = myAppException.getRespCode().value();
+                int statusCode = respCodeToStatus(myAppException.getRespCode()).value();
+                String message = ex.getMessage();
+
+                apiResponse.setRespCode(respCode);
+                apiResponse.setStatusCode(statusCode);
+                apiResponse.setRespMessage(message);
+                response.setStatus(statusCode);
             } else {
-                apiResponse.setRespCode(RespCode.INTERNAL.value());
-                apiResponse.setStatusCode(respCodeToStatus(RespCode.INTERNAL).value());
-                apiResponse.setRespMessage(ex.getMessage());
+                int respCode = RespCode.INTERNAL.value();
+                int statusCode = respCodeToStatus(RespCode.INTERNAL).value();
+                String message = ex.getMessage();
+
+                apiResponse.setRespCode(respCode);
+                apiResponse.setStatusCode(statusCode);
+                apiResponse.setRespMessage(message);
+                response.setStatus(statusCode);
             }
             objectMapper.writeValue(response.getWriter(), apiResponse);
         } catch (Exception e) {
