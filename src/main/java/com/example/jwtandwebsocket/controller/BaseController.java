@@ -1,5 +1,6 @@
 package com.example.jwtandwebsocket.controller;
 
+import com.example.jwtandwebsocket.common.constant.CommonRespMessage;
 import com.example.jwtandwebsocket.common.constant.RespCode;
 import com.example.jwtandwebsocket.common.exception.MyAppException;
 import com.example.jwtandwebsocket.common.model.BaseResponse;
@@ -34,24 +35,24 @@ public abstract class BaseController {
         if (authentication != null && authentication.getPrincipal() instanceof SecurityUser) {
             return (SecurityUser) authentication.getPrincipal();
         } else {
-            throw new MyAppException("You aren't authorized to perform this operation!", RespCode.AUTHENTICATION);
+            throw new MyAppException(CommonRespMessage.NOT_AUTHORIZATION, RespCode.AUTHENTICATION);
         }
     }
 
     protected <T> T checkNotNull(T t) throws MyAppException {
         if (t == null) {
-            throw new MyAppException("Request item wasn't found", RespCode.ITEM_NOT_FOUND);
+            throw new MyAppException(CommonRespMessage.REQ_ITEM_NOT_FOUND, RespCode.ITEM_NOT_FOUND);
         }
         return t;
     }
 
     protected <T> BaseResponse<T> toBaseResponse(T data) throws MyAppException {
-        return new BaseResponse<>(RespCode.SUCCESS.value(), null, HttpStatus.OK.value(), data);
+        return new BaseResponse<>(RespCode.SUCCESS.value(), CommonRespMessage.SUCCESS, HttpStatus.OK.value(), data);
     }
 
     protected <T> BaseResponse<T> checkNullAndToBaseResp(T data) throws MyAppException {
         checkNotNull(data);
-        return new BaseResponse<>(RespCode.SUCCESS.value(), null, HttpStatus.OK.value(), data);
+        return new BaseResponse<>(RespCode.SUCCESS.value(), CommonRespMessage.SUCCESS, HttpStatus.OK.value(), data);
     }
 
 }
