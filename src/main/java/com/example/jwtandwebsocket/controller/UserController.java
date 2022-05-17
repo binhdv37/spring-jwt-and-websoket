@@ -18,6 +18,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER_VIEW + "\")")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") UUID id) throws MyAppException {
-        return ResponseEntity.ok(checkNotNull(userService.findById(id)));
+        return ResponseEntity.ok(checkNullAndToBaseResp(userService.findById(id)));
     }
 }

@@ -2,11 +2,13 @@ package com.example.jwtandwebsocket.controller;
 
 import com.example.jwtandwebsocket.common.constant.RespCode;
 import com.example.jwtandwebsocket.common.exception.MyAppException;
+import com.example.jwtandwebsocket.common.model.BaseResponse;
 import com.example.jwtandwebsocket.service.security.model.SecurityUser;
 import com.example.jwtandwebsocket.service.user.UserService;
 import com.example.jwtandwebsocket.utils.exceptionHandler.MyExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,6 +43,15 @@ public abstract class BaseController {
             throw new MyAppException("Request item wasn't found", RespCode.ITEM_NOT_FOUND);
         }
         return t;
+    }
+
+    protected <T> BaseResponse<T> toBaseResponse(T data) throws MyAppException {
+        return new BaseResponse<>(RespCode.SUCCESS.value(), null, HttpStatus.OK.value(), data);
+    }
+
+    protected <T> BaseResponse<T> checkNullAndToBaseResp(T data) throws MyAppException {
+        checkNotNull(data);
+        return new BaseResponse<>(RespCode.SUCCESS.value(), null, HttpStatus.OK.value(), data);
     }
 
 }
