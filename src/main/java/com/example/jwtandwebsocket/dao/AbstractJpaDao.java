@@ -4,8 +4,7 @@ import com.example.jwtandwebsocket.entity.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 public abstract class AbstractJpaDao<E extends BaseEntity<T>, T> implements Dao<T> { // E: entity, T: dto ( domain )
@@ -19,6 +18,18 @@ public abstract class AbstractJpaDao<E extends BaseEntity<T>, T> implements Dao<
         log.debug("Get entity by id {}", id);
         Optional<E> entity = getCrudRepository().findById(id);
         return DaoUtil.getData(entity);
+    }
+
+    @Override
+    public List<T> findAll() {
+        log.debug("Find all entity");
+        Iterable<E> iterable = getCrudRepository().findAll();
+        Iterator<E> iterator = iterable.iterator();
+        List<T> result = new ArrayList<>();
+        while (iterator.hasNext()) {
+            result.add(iterator.next().toData());
+        }
+        return result;
     }
 
     @Override
