@@ -13,7 +13,7 @@ public interface UserService {
 
     UserDto findByUsername(String username);
 
-    UserDto save(UserDto userDto);
+    UserDto save(UserDto userDto, UUID actioner);
 
     boolean deleteById(UUID id);
 

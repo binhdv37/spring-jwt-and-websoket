@@ -1,13 +1,13 @@
 package com.example.jwtandwebsocket.service.user;
 
-import com.example.jwtandwebsocket.common.constant.CommonRespMessage;
 import com.example.jwtandwebsocket.common.constant.RespCode;
 import com.example.jwtandwebsocket.common.exception.MyValidationException;
-import com.example.jwtandwebsocket.common.exception.MyAppException;
 import com.example.jwtandwebsocket.dao.user.UserDao;
 import com.example.jwtandwebsocket.dto.user.UserDto;
 import com.example.jwtandwebsocket.utils.validator.DataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +17,13 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao,
+                           @Lazy PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto save(UserDto userDto) {
+    public UserDto save(UserDto userDto, UUID actioner) {
         userValidator.validateSave(userDto);
         if (userDto.getId() != null) { // update
             UserDto current = userDao.findById(userDto.getId());
@@ -49,7 +52,14 @@ public class UserServiceImpl implements UserService {
             current.setFullName(userDto.getFullName());
             current.setEnable(userDto.isEnable());
             current.setRoleDto(userDto.getRoleDto());
+            current.setPhoneNumber(userDto.getPhoneNumber());
+            current.setUpdatedTime(System.currentTimeMillis());
+            current.setUpdatedBy(actioner);
+            return userDao.save(current);
         }
+        // encrypt password in case create new account
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        return userDao.save(userDto);
     }
 
     @Override
