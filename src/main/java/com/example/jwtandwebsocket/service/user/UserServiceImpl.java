@@ -5,6 +5,7 @@ import com.example.jwtandwebsocket.common.exception.MyValidationException;
 import com.example.jwtandwebsocket.dao.user.UserDao;
 import com.example.jwtandwebsocket.dto.user.UserDto;
 import com.example.jwtandwebsocket.utils.validator.DataValidator;
+import com.example.jwtandwebsocket.utils.validator.FieldConstraintValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,12 +19,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
+    private final FieldConstraintValidator validator;
 
     @Autowired
     public UserServiceImpl(UserDao userDao,
-                           @Lazy PasswordEncoder passwordEncoder) {
+                           @Lazy PasswordEncoder passwordEncoder,
+                           FieldConstraintValidator validator) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
+        this.validator = validator;
     }
 
     @Override
@@ -67,6 +71,11 @@ public class UserServiceImpl implements UserService {
     }
 
     private final DataValidator<UserDto> userValidator = new DataValidator<UserDto>() {
+
+        @Override
+        public FieldConstraintValidator getValidator() {
+            return validator;
+        }
 
         @Override
         public void validateSave(UserDto dto) {

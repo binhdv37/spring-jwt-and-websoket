@@ -26,7 +26,7 @@ public class UserController extends BaseController {
         return ResponseEntity.ok(checkNullAndToBaseResp(userService.findAll()));
     }
 
-    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER_CREATE + "\", \"" + AuthorityConstant.USER_CREATE + "\")")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER_CREATE + "\", \"" + AuthorityConstant.USER_UPDATE + "\")")
     @PostMapping(value = "")
     public ResponseEntity<?> saveUser(@RequestBody UserDto userDto) throws MyAppException {
         SecurityUser securityUser = getCurrentUser();

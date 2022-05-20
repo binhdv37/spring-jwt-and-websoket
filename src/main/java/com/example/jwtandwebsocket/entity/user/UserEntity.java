@@ -56,6 +56,20 @@ public class UserEntity implements BaseEntity<UserDto> {
     @Column(name = "role_id")
     private UUID roleId;
 
+    public UserEntity(UserDto userDto) {
+        this.id =userDto.getId();
+        this.username =userDto.getUsername();
+        this.password =userDto.getPassword();
+        this.email =userDto.getEmail();
+        this.fullName =userDto.getFullName();
+        this.phoneNumber =userDto.getPhoneNumber();
+        this.enable =userDto.isEnable();
+        this.createdTime =userDto.getCreatedTime();
+        this.createdBy =userDto.getCreatedBy();
+        this.updatedTime =userDto.getUpdatedTime();
+        this.updatedBy =userDto.getUpdatedBy();
+    }
+
     @Override
     public UUID getUuid() {
         return this.id;

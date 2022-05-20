@@ -12,12 +12,14 @@ public abstract class DataValidator<T extends BaseDto> { // T: dto
 
     public static final String phoneRegex = "^[0-9]{6,20}$"; // 6 -> 2o ki tu so
 
+    public abstract FieldConstraintValidator getValidator();
+
     public void validateSave(T dto) {
         if (dto == null) {
             throw new MyValidationException("Data object cannot be null", RespCode.VALIDATION_FAIL);
         }
 
-        FieldConstraintValidator.validateFields(dto);
+        getValidator().validateFields(dto);
 
         if (dto.getId() == null) {
             validateCreate(dto);

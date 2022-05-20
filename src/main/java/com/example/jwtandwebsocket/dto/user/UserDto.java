@@ -2,6 +2,7 @@ package com.example.jwtandwebsocket.dto.user;
 
 import com.example.jwtandwebsocket.dto.BaseDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,8 @@ public class UserDto implements BaseDto {
 
     @NotBlank(message = "username can not be blank")
     private String username; // can not update
-    @JsonIgnore
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotBlank(message = "email can not be blank")
