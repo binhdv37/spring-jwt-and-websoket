@@ -36,6 +36,6 @@ public class UserController extends BaseController {
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER_DELETE + "\")")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable UUID id) throws MyAppException {
-        return ResponseEntity.ok(userService.deleteById(id));
+        return ResponseEntity.ok(checkNullAndToBaseResp(userService.deleteById(id)));
     }
 }

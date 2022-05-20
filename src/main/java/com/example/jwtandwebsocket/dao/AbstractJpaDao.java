@@ -1,5 +1,7 @@
 package com.example.jwtandwebsocket.dao;
 
+import com.example.jwtandwebsocket.common.constant.RespCode;
+import com.example.jwtandwebsocket.common.exception.MyAppException;
 import com.example.jwtandwebsocket.entity.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.CrudRepository;
@@ -51,8 +53,12 @@ public abstract class AbstractJpaDao<E extends BaseEntity<T>, T> implements Dao<
     }
 
     @Override
-    public boolean deleteById(UUID id) {
-        getCrudRepository().deleteById(id);
+    public boolean deleteById(UUID id) throws MyAppException {
+        try {
+            getCrudRepository().deleteById(id);
+        } catch (Exception e) {
+            throw new MyAppException("Entity with id " + id + " does not exist!", RespCode.ITEM_NOT_FOUND);
+        }
         log.debug("Delete request: {}", id);
         return !getCrudRepository().existsById(id);
     }

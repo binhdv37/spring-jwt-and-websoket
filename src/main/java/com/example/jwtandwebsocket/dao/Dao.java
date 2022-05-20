@@ -1,5 +1,7 @@
 package com.example.jwtandwebsocket.dao;
 
+import com.example.jwtandwebsocket.common.exception.MyAppException;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -11,5 +13,5 @@ public interface Dao<T> {
 
     T save(T t);
 
-    boolean deleteById(UUID id);
+    boolean deleteById(UUID id) throws MyAppException;
 }

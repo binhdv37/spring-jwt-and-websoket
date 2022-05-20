@@ -1,6 +1,7 @@
 package com.example.jwtandwebsocket.service.user;
 
 import com.example.jwtandwebsocket.common.constant.RespCode;
+import com.example.jwtandwebsocket.common.exception.MyAppException;
 import com.example.jwtandwebsocket.common.exception.MyValidationException;
 import com.example.jwtandwebsocket.dao.user.UserDao;
 import com.example.jwtandwebsocket.dto.user.UserDto;
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteById(UUID id) {
+    public boolean deleteById(UUID id) throws MyAppException {
         return userDao.deleteById(id);
     }
 
