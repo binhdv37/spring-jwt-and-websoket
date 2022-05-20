@@ -2,12 +2,14 @@ package com.example.jwtandwebsocket.entity.user;
 
 import com.example.jwtandwebsocket.dto.user.UserDto;
 import com.example.jwtandwebsocket.entity.BaseEntity;
-import com.example.jwtandwebsocket.entity.role.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
@@ -51,9 +53,8 @@ public class UserEntity implements BaseEntity<UserDto> {
     @Column(name = "updatedBy")
     private UUID updatedBy;
 
-    @ManyToOne
-    @JoinColumn(name = "roleId", referencedColumnName = "id")
-    private RoleEntity roleEntity;
+    @Column(name = "role_id")
+    private UUID roleId;
 
     @Override
     public UUID getUuid() {
@@ -75,7 +76,7 @@ public class UserEntity implements BaseEntity<UserDto> {
         userDto.setFullName(fullName);
         userDto.setPhoneNumber(phoneNumber);
         userDto.setEnable(enable);
-        userDto.setRoleDto(roleEntity == null ? null : roleEntity.toData());
+        userDto.setRoleId(roleId);
         userDto.setCreatedTime(createdTime);
         userDto.setCreatedBy(createdBy);
         userDto.setUpdatedTime(updatedTime);

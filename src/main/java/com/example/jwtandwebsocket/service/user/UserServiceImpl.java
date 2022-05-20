@@ -47,11 +47,10 @@ public class UserServiceImpl implements UserService {
         if (userDto.getId() != null) { // update
             UserDto current = userDao.findById(userDto.getId());
             if (current == null) {
-               return null;
+                return null;
             }
             current.setFullName(userDto.getFullName());
             current.setEnable(userDto.isEnable());
-            current.setRoleDto(userDto.getRoleDto());
             current.setPhoneNumber(userDto.getPhoneNumber());
             current.setUpdatedTime(System.currentTimeMillis());
             current.setUpdatedBy(actioner);
@@ -84,11 +83,11 @@ public class UserServiceImpl implements UserService {
                - roleId exist
              */
             if (userDao.existsByUsername(dto.getUsername())) {
-               throw new MyValidationException("username already exist", RespCode.VALIDATION_FAIL);
+                throw new MyValidationException("username already exist", RespCode.VALIDATION_FAIL);
             }
 
             if (dto.getPassword() == null || dto.getPassword().trim().equals("")) {
-               throw new MyValidationException("password can not be blank", RespCode.VALIDATION_FAIL);
+                throw new MyValidationException("password can not be blank", RespCode.VALIDATION_FAIL);
             }
 
             if (userDao.existsByEmail(dto.getEmail())) {

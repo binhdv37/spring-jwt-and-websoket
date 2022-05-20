@@ -1,8 +1,8 @@
 package com.example.jwtandwebsocket.service.security.provider;
 
 import com.example.jwtandwebsocket.dto.permission.PermissionDto;
-import com.example.jwtandwebsocket.dto.role.RoleDto;
 import com.example.jwtandwebsocket.dto.user.UserDto;
+import com.example.jwtandwebsocket.service.permission.PermissionService;
 import com.example.jwtandwebsocket.service.security.model.SecurityUser;
 import com.example.jwtandwebsocket.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +26,15 @@ public class RestAuthenProvider implements AuthenticationProvider {
 
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final PermissionService permissionService;
 
     @Autowired
     public RestAuthenProvider(
             PasswordEncoder passwordEncoder,
-            UserService userService) {
+            UserService userService, PermissionService permissionService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
+        this.permissionService = permissionService;
     }
 
     @Override
@@ -50,9 +52,8 @@ public class RestAuthenProvider implements AuthenticationProvider {
             }
 
             Collection<GrantedAuthority> authorities = null;
-            RoleDto roleDto = userDto.getRoleDto();
-            if (roleDto != null) {
-                List<PermissionDto> permissionDtoList = roleDto.getPermissionDtos();
+            if (userDto.getRoleId() != null) {
+                List<PermissionDto> permissionDtoList = permissionService.findAllByRoleId(userDto.getRoleId());
                 if (permissionDtoList != null && permissionDtoList.size() > 0) {
                     authorities = permissionDtoList.stream()
                             .map(p -> new SimpleGrantedAuthority(p.getKey()))

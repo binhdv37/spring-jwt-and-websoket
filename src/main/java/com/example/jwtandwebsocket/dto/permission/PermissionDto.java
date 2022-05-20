@@ -13,4 +13,5 @@ public class PermissionDto {
     private UUID id;
     private String name;
     private String key;
+    private Long createdTime;
 }

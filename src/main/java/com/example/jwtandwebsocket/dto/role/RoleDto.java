@@ -23,5 +23,4 @@ public class RoleDto implements BaseDto {
     private UUID createdBy;
     private Long updatedTime;
     private UUID updatedBy;
-    private List<PermissionDto> permissionDtos;
 }

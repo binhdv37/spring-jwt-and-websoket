@@ -1,7 +1,6 @@
 package com.example.jwtandwebsocket.dto.user;
 
 import com.example.jwtandwebsocket.dto.BaseDto;
-import com.example.jwtandwebsocket.dto.role.RoleDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +34,6 @@ public class UserDto implements BaseDto {
     private UUID createdBy;
     private Long updatedTime;
     private UUID updatedBy;
-    private RoleDto roleDto;
     private UUID roleId; // custom
 
     public UserDto(UserDto userDto) {
@@ -50,7 +48,6 @@ public class UserDto implements BaseDto {
         this.createdBy = userDto.getCreatedBy();
         this.updatedTime = userDto.getUpdatedTime();
         this.updatedBy = userDto.getUpdatedBy();
-        this.roleDto = userDto.getRoleDto();
         this.roleId = userDto.getRoleId();
     }
 }
