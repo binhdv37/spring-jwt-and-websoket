@@ -13,7 +13,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class PermissionDaoImpl extends AbstractJpaDao<PermissionEntity, PermissionDto> implements PermissionDao{
+public class PermissionDaoImpl extends AbstractJpaDao<PermissionEntity, PermissionDto> implements PermissionDao {
 
     private final PermissionRepository permissionRepository;
 

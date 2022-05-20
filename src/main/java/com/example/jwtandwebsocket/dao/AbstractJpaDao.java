@@ -36,7 +36,7 @@ public abstract class AbstractJpaDao<E extends BaseEntity<T>, T> implements Dao<
     public T save(T t) {
         E entity;
         try {
-            entity = getEntityClass().getConstructor(t.getClass()).newInstance(t);
+            entity = getEntityClass().getConstructor(t.getClass()).newInstance(t); // entity can co ham construct Entity(Dto dto)
         } catch (Exception e) {
             log.error("Can't create entity for domain object {}", t, e);
             throw new IllegalArgumentException("Can't create entity for domain object {" + t + "}", e);
