@@ -17,4 +17,6 @@ public interface PermissionRepository extends JpaRepository<PermissionEntity, UU
             "on pe.id = rap.permissionId " +
             "where rap.roleId = :roleId")
     List<PermissionEntity> findAllByRoleId(@Param("roleId") UUID roleId);
+
+    boolean existsById(UUID id);
 }

@@ -38,6 +38,15 @@ public class RoleEntity implements BaseEntity<RoleDto> {
     @Column(name = "updatedBy")
     private UUID updatedBy;
 
+    public RoleEntity(RoleDto roleDto) {
+        this.id = roleDto.getId();
+        this.name = roleDto.getName();
+        this.createdTime = roleDto.getCreatedTime();
+        this.createdBy = roleDto.getCreatedBy();
+        this.updatedTime = roleDto.getUpdatedTime();
+        this.updatedBy = roleDto.getUpdatedBy();
+    }
+
     @Override
     public UUID getUuid() {
         return this.id;

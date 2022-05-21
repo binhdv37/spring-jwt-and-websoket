@@ -32,6 +32,13 @@ public class PermissionEntity implements BaseEntity<PermissionDto> {
     @Column(name = "createdTime", nullable = false)
     private Long createdTime;
 
+    public PermissionEntity(PermissionDto dto) {
+        this.id = dto.getId();
+        this.name = dto.getName();
+        this.key = dto.getKey();
+        this.createdTime = dto.getCreatedTime();
+    }
+
     @Override
     public UUID getUuid() {
         return this.id;

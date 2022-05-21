@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
         }
         // encrypt password in case create new account
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setCreatedBy(actioner);
         return userDao.save(userDto);
     }
 
@@ -76,11 +77,6 @@ public class UserServiceImpl implements UserService {
         @Override
         public FieldConstraintValidator getValidator() {
             return validator;
-        }
-
-        @Override
-        public void validateSave(UserDto dto) {
-            super.validateSave(dto);
         }
 
         @Override

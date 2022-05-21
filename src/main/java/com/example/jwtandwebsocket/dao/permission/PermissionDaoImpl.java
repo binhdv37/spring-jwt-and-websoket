@@ -39,4 +39,9 @@ public class PermissionDaoImpl extends AbstractJpaDao<PermissionEntity, Permissi
                 .map(PermissionEntity::toData)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return permissionRepository.existsById(id);
+    }
 }

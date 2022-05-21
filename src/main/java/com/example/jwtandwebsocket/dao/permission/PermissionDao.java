@@ -10,4 +10,6 @@ public interface PermissionDao extends Dao<PermissionDto> {
 
     List<PermissionDto> findAllByRoleId(UUID roleId);
 
+    boolean existsById(UUID id);
+
 }

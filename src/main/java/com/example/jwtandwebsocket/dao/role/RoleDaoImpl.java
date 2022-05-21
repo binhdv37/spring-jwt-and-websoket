@@ -30,4 +30,13 @@ public class RoleDaoImpl extends AbstractJpaDao<RoleEntity, RoleDto> implements 
         return roleRepository;
     }
 
+    @Override
+    public boolean existsByName(String name) {
+        return roleRepository.existsByName(name);
+    }
+
+    @Override
+    public boolean existsByName(String name, UUID id) {
+        return roleRepository.existsByNameAndIdIsNot(name, id);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.jwtandwebsocket.entity.role_and_permission;
 
+import com.example.jwtandwebsocket.dto.roleAndPermission.RoleAndPermissionDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,16 @@ public class RoleAndPermissionEntity {
     @Id
     @Column(name = "permission_id")
     private UUID permissionId;
+
+    public RoleAndPermissionEntity(RoleAndPermissionDto dto) {
+        this.roleId = dto.getRoleId();
+        this.permissionId = dto.getPermissionId();
+    }
+
+    public RoleAndPermissionDto toData() {
+        RoleAndPermissionDto result = new RoleAndPermissionDto();
+        result.setRoleId(roleId);
+        result.setPermissionId(permissionId);
+        return result;
+    }
 }
