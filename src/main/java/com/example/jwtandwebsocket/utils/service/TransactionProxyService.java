@@ -14,7 +14,7 @@ import java.util.UUID;
 @Component
 public class TransactionProxyService { // dinh nghia 1 so ham can chay transactional trong day
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public RoleDto saveRole(RoleDao roleDao,
                             RoleAndPermisionDao roleAndPermisionDao,
                             RoleDto roleDto,
