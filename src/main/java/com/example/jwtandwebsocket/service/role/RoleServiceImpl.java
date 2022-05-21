@@ -6,6 +6,7 @@ import com.example.jwtandwebsocket.common.exception.MyValidationException;
 import com.example.jwtandwebsocket.dao.permission.PermissionDao;
 import com.example.jwtandwebsocket.dao.role.RoleDao;
 import com.example.jwtandwebsocket.dao.roleAndPermission.RoleAndPermisionDao;
+import com.example.jwtandwebsocket.dto.permission.PermissionDto;
 import com.example.jwtandwebsocket.dto.role.RoleDto;
 import com.example.jwtandwebsocket.utils.service.TransactionProxyService;
 import com.example.jwtandwebsocket.utils.validator.DataValidator;
@@ -42,12 +43,23 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto findById(UUID id) {
-        return roleDao.findById(id);
+        RoleDto roleDto = roleDao.findById(id);
+        if (roleDto == null) {
+            return null;
+        }
+        List<PermissionDto> permissionDtoList = permissionDao.findAllByRoleId(id);
+        roleDto.setPermissionDtoList(permissionDtoList);
+        return roleDto;
     }
 
     @Override
     public List<RoleDto> findAll() {
-        return roleDao.findAll();
+        List<RoleDto> roleDtoList = roleDao.findAll();
+        for (RoleDto r : roleDtoList) {
+            List<PermissionDto> permissionDtoList = permissionDao.findAllByRoleId(r.getId());
+            r.setPermissionDtoList(permissionDtoList);
+        }
+        return roleDtoList;
     }
 
     @Override
@@ -61,11 +73,17 @@ public class RoleServiceImpl implements RoleService {
             current.setName(roleDto.getName());
             current.setUpdatedBy(actioner);
             current.setUpdatedTime(System.currentTimeMillis());
-            return transactionProxyService.saveRole(roleDao, roleAndPermisionDao, current, roleDto.getListPermissionId());
+            RoleDto saved = transactionProxyService.saveRole(roleDao, roleAndPermisionDao, current, roleDto.getListPermissionId());
+            List<PermissionDto> permissionDtoList = permissionDao.findAllByRoleId(saved.getId());
+            saved.setPermissionDtoList(permissionDtoList);
+            return saved;
         }
         // create
         roleDto.setCreatedBy(actioner);
-        return transactionProxyService.saveRole(roleDao, roleAndPermisionDao, roleDto, roleDto.getListPermissionId());
+        RoleDto saved = transactionProxyService.saveRole(roleDao, roleAndPermisionDao, roleDto, roleDto.getListPermissionId());
+        List<PermissionDto> permissionDtoList = permissionDao.findAllByRoleId(saved.getId());
+        saved.setPermissionDtoList(permissionDtoList);
+        return saved;
     }
 
     @Override

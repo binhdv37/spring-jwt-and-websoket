@@ -24,7 +24,7 @@ public class TransactionProxyService { // dinh nghia 1 so ham can chay transacti
         }
         // save to role table, and then role_and_permission table
         RoleDto savedRole = roleDao.save(roleDto);
-        if (roleDto.getListPermissionId() != null && roleDto.getListPermissionId().size() != 0) {
+        if (listPermisisonId != null && listPermisisonId.size() != 0) {
             for (UUID id : listPermisisonId) {
                 RoleAndPermissionDto roleAndPermissionDto = new RoleAndPermissionDto();
                 roleAndPermissionDto.setRoleId(savedRole.getId());

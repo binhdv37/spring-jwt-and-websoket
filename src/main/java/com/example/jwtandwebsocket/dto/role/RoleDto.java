@@ -1,11 +1,13 @@
 package com.example.jwtandwebsocket.dto.role;
 
 import com.example.jwtandwebsocket.dto.BaseDto;
+import com.example.jwtandwebsocket.dto.permission.PermissionDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,4 +26,5 @@ public class RoleDto implements BaseDto {
     private UUID updatedBy;
 
     private Set<UUID> listPermissionId; // custom - for save role api
+    private List<PermissionDto> permissionDtoList; // custom - for get role api
 }

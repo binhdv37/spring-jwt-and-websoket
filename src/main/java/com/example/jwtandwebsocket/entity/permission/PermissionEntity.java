@@ -55,6 +55,7 @@ public class PermissionEntity implements BaseEntity<PermissionDto> {
         permissionDto.setId(id);
         permissionDto.setKey(key);
         permissionDto.setName(name);
+        permissionDto.setCreatedTime(createdTime);
         return permissionDto;
     }
 }
