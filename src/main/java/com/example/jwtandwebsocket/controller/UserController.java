@@ -4,6 +4,11 @@ import com.example.jwtandwebsocket.common.constant.AuthorityConstant;
 import com.example.jwtandwebsocket.common.exception.MyAppException;
 import com.example.jwtandwebsocket.dto.user.UserDto;
 import com.example.jwtandwebsocket.service.security.model.SecurityUser;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,17 @@ import java.util.UUID;
 @RequestMapping("/api/user")
 public class UserController extends BaseController {
 
+    @Operation(summary = "Get user object by id")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Found user",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = UserDto.class))
+                    })
+    })
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER_VIEW + "\")")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") UUID id) throws MyAppException {
