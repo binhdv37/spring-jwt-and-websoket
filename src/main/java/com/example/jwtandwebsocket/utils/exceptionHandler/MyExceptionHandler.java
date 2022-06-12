@@ -7,13 +7,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@RestControllerAdvice
 @Slf4j
 public class MyExceptionHandler {
 
@@ -31,6 +32,7 @@ public class MyExceptionHandler {
         respCodeToStatusMap.put(RespCode.ITEM_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(Exception.class)
     public void handle(Exception ex, HttpServletResponse response) {
         try {
             BaseResponse apiResponse = new BaseResponse();
